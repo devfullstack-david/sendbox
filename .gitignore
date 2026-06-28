@@ -2,3 +2,6 @@ observations.txt
 .vscode
 /sendbox-server/target
 /sendbox-server/bin
+/sendbox-server/src/main/resources/application-test.yml
+/sendbox-server/src/main/resources/application.yml
+/sendbox-server/src/main/resources/application.properties
