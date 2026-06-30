@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.devfullstack_david.sendbox_server.model.Administrator;
+import com.devfullstack_david.sendbox_server.model.dto.LoginRequestDTO;
+import com.devfullstack_david.sendbox_server.model.dto.LoginResponseDTO;
 import com.devfullstack_david.sendbox_server.model.dto.SaveAdministratorDTO;
 import com.devfullstack_david.sendbox_server.service.AdministratorService;
 
@@ -32,5 +34,11 @@ public class AdministratorController {
     @GetMapping
     public ResponseEntity<List<Administrator>> getAdministrators() {
         return ResponseEntity.ok(administratorService.getAdministrators());
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO request) {
+        String token = administratorService.login(request.username(), request.password());
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 }

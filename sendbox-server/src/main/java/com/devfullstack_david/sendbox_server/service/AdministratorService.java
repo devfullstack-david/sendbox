@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class AdministratorService {
     private final AdministratorRepository administratorRepository;
     private final PasswordEncoder passwordEncoder;
+    private final TokenService tokenService;
 
     public void createAdministrator(SaveAdministratorDTO administratorDTO) {
         Administrator administrator = new Administrator();
@@ -30,5 +31,16 @@ public class AdministratorService {
 
     public List<Administrator> getAdministrators() {
         return administratorRepository.findAll();
+    }
+
+    public String login(String username, String rawPassword) {
+        Administrator admin = this.administratorRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Username invalid"));
+
+        if (!passwordEncoder.matches(rawPassword, admin.getPassword())) {
+            throw new RuntimeException("Password invalid");
+        }
+
+        return tokenService.generateToken(admin);
     }
 }
