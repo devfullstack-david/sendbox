@@ -22,6 +22,7 @@ public class TokenService {
             return JWT.create()
                 .withIssuer("sendbox-server")
                 .withSubject(admin.getUsername())
+                .withClaim("id", admin.getId())
                 .withExpiresAt(generateExpirationDate())
                 .sign(algorithm);
                 
